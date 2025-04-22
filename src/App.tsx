@@ -3,7 +3,6 @@ import './App.css';
 import { User, UserCreateDto } from './lib/type';
 import { RenderUserTable } from './ui/user-table';
 import { CreateUserForm } from './ui/create-user-form';
-const port = process.env.PORT || 3000;
 
 function App() {
   const [users, setUsers] = React.useState<User[]>([]);
@@ -12,7 +11,7 @@ function App() {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(`http://localhost:${port}/user`);
+      const response = await fetch(`http://localhost:8080/user`);
       console.log(response);
       if (!response.ok) {
         throw new Error('Failed to fetch users');
@@ -26,7 +25,7 @@ function App() {
 
   const handleCreateUser = async (userCreated: UserCreateDto) => {
     try {
-      const response = await fetch(`http://localhost:${port}/user`, {
+      const response = await fetch(`http://localhost:8080/user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +40,7 @@ function App() {
       console.log('Number of users:', users.length);
       console.log('User created:', newUser);
 
-      fetchUser();
+      await fetchUser();
     } catch (error) {
       console.error('Error creating user:', error);
     }
